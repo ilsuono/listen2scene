@@ -10,7 +10,7 @@ from torch.nn import init
 import torch
 import torch.nn as nn
 import torchvision.utils as vutils
-from wavefile import WaveWriter, Format
+import soundfile as sf
 # import RT60
 from multiprocessing import Pool
 from torch.nn.functional import normalize
@@ -155,10 +155,8 @@ def save_RIR_results(data_RIR, fake, epoch, RIR_dir):
             real_IR = np.array(data_RIR[i].to("cpu").detach())
             fake_IR = np.array(fake[i].to("cpu").detach())
 
-            r = WaveWriter(real_RIR_path, channels=2, samplerate=fs)
-            r.write(np.array(real_IR))
-            f = WaveWriter(fake_RIR_path, channels=2, samplerate=fs)
-            f.write(np.array(fake_IR))           
+            sf.write(real_RIR_path, np.array(real_IR).T, fs)  
+            sf.write(fake_RIR_path, np.array(fake_IR).T, fs)           
 
 
             # write(real_RIR_path,fs,real_IR)
@@ -181,8 +179,7 @@ def save_RIR_results(data_RIR, fake, epoch, RIR_dir):
             fake_RIR_path = RIR_dir+"/small_fake_sample"+str(i)+"_epoch_"+str(epoch)+".wav"
             fs =16000
             fake_IR = np.array(fake[i].to("cpu").detach())
-            f = WaveWriter(fake_RIR_path, channels=1, samplerate=fs)
-            f.write(np.array(fake_IR))
+            sf.write(fake_RIR_path, np.array(fake_IR).T, fs)
             
             # write(fake_RIR_path,fs,fake[i].astype(np.float32))
 

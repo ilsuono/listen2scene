@@ -19,7 +19,6 @@ import pickle
 import soundfile as sf
 import re
 import math
-from wavefile import WaveWriter, Format
 
 from miscc.config import cfg
 from miscc.utils import mkdir_p
@@ -460,8 +459,7 @@ class GANTrainer(object):
                 for i, c in enumerate(res_buffer):
                     res['samples'][i, :len(c)] = c
 
-                w = WaveWriter(save_name_GAN, channels=np.shape(res['samples'])[0], samplerate=int(res['rate']))
-                w.write(np.array(res['samples'])) 
+                sf.write(save_name_GAN, np.array(res['samples']).T, int(res['rate']))
 
             print("counter = ",count)
             count = count+64

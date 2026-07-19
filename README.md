@@ -18,7 +18,6 @@ pip3 install torch-scatter==2.1.1 torch-sparse==0.6.17 torch-spline-conv==1.2.2 
 pip3 install librosa
 pip3 install easydict
 pip3 install cupy-cuda11x
-pip3 install wavefile
 pip3 install torchfile
 pip3 install pyyaml==5.4.1
 pip3 install pymeshlab
