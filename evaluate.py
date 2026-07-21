@@ -43,7 +43,19 @@ def load_network_stageI(netG_path,mesh_net_path):
             state_dict = \
                 torch.load(mesh_net_path,
                            map_location=lambda storage, loc: storage)
-            mesh_net.load_state_dict(state_dict)
+            new_state_dict = {}
+            for key, value in state_dict.items():
+                if key in [
+                    "pool1.weight",
+                    "pool2.weight",
+                    "pool3.weight",
+                ]:
+                    new_key = key.replace(".weight", ".select.weight")
+                    new_state_dict[new_key] = value
+                else:
+                    new_state_dict[key] = value
+
+            mesh_net.load_state_dict(new_state_dict)
             print('Load from: ', mesh_net_path)
 
         netG.cuda()
