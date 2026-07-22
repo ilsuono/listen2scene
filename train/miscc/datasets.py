@@ -94,7 +94,7 @@ class TextDataset(data.Dataset):
         return graph #edge_index, vertex_position
 
     def load_embedding(self, data_dir):
-        embedding_directory   = '../embeddings.pickle'  
+        embedding_directory   = data_dir + '/embeddings.pickle'  
         with open(embedding_directory, 'rb') as f:
             embeddings = pickle.load(f)
         return embeddings
@@ -103,7 +103,7 @@ class TextDataset(data.Dataset):
     def __getitem__(self, index):
       
 
-        graph_path,RIR_path,source_location,receiver_location = self.embeddings[index]
+        graph_path,_,RIR_path,source_location,receiver_location = self.embeddings[index]
 
         data_dir = self.data_dir
 
